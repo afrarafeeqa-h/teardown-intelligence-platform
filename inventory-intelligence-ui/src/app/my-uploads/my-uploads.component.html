@@ -1,0 +1,60 @@
+<div class="main-container">
+<h2>📁My Uploads</h2>
+
+<!-- Loading state -->
+<div *ngIf="loading" class="loading">⏳ Loading uploads...</div>
+
+<!-- Error -->
+<div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+
+<!-- Table -->
+<div class="table-container" *ngIf="!loading && uploads.length > 0">
+  <table>
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>Uploaded At</th>
+        <th>Total</th>
+        <th>Valid</th>
+        <th>Warning</th>
+        <th>Rejected</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let u of uploads">   
+        <td>📁 {{ u.file_name }}</td>
+        <td>{{ u.uploaded_at | date:'medium' }}</td>
+        <td>{{ u.total_records }}</td>
+        
+<td>
+  <span class="status clean">{{ u.valid_records }}</span>
+</td>
+
+<td>
+  <span class="status warn">{{ u.warning_records }}</span>
+</td>
+
+<td>
+  <span class="status reject">{{ u.rejected_records }}</span>
+</td>
+        <td class="action-cell">
+  <button class="btn dataset" (click)="viewDataset(u.upload_id)">
+    📄 Dataset
+  </button>
+
+  <button class="btn dashboard" (click)="viewUpload(u.upload_id)">
+    📊 Dashboard
+  </button>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Empty state -->
+<div *ngIf="!loading && uploads.length === 0" class="empty-state">
+  📭 No uploads found. Upload a dataset to get started.
+</div>
+</div>

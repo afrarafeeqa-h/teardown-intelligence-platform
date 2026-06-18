@@ -1,0 +1,238 @@
+<div class="main-container">
+
+  <h2>📁Dataset Intelligence</h2>
+  <p class="subtitle">
+    Dynamic dataset view
+  </p>
+<div class="search-bar">
+  <input
+    type="text"
+    [(ngModel)]="searchText"
+    placeholder="🔍 Search..."
+  />
+  <button class="search-btn" (click)="applyFilter()">
+    Search
+  </button>
+</div>
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+    <button class="action-btn" (click)="runQualityCheck()">Quality Check</button>
+    <button class="action-btn" (click)="runAnomalyDetection()">Anomaly</button>
+    <button class="action-btn" (click)="toggleFilter()">Filter</button>
+<select name="csv" (change)="exportCSV($event)">
+  <option value="" disabled selected>Export CSV</option>
+  <option value="clean">Download Clean Dataset</option>
+  <option value="full">Download With Analysis</option>
+</select>
+<select (change)="exportExcel($event)">
+  <option value="" disabled selected>Export Excel</option>
+  <option value="clean">Download Clean Dataset</option>
+  <option value="full">Download With Analysis</option>
+</select>
+<select (change)="exportPDF($event)">
+  <option value="" disabled selected>Export PDF</option>
+  <option value="clean">Download Clean Dataset</option>
+  <option value="full">Download With Analysis</option>
+</select>
+<button (click)="exportCurrentViewCSV()">Export Current View</button>
+<button class="action-btn" (click)="saveState()">Save</button>
+<button class="clear-all-btn" (click)="resetAll()">
+  Clear All
+</button>
+  </div>
+  <div *ngIf="showFilter" class="filter-panel">
+  <div class="filter-row">
+
+  <!-- Label -->
+  <label class="filter-label">Filter By:</label>
+
+  <!-- Dropdown -->
+  <div class="dropdown-filter">
+
+    <div class="dropdown-header"
+         (click)="showColumnSelector = !showColumnSelector">
+
+      {{ selectedColumns.length 
+          ? selectedColumns.join(', ') 
+          : 'Select Columns' }} ▼
+    </div>
+    <div class="dropdown-content" *ngIf="showColumnSelector">
+  <label *ngFor="let col of filterColumns" class="dropdown-item">
+  <input
+    type="checkbox"
+    [checked]="selectedColumns.includes(col)"
+    (change)="toggleColumn(col, $event)" />
+  <span>{{ col }}</span>
+</label>
+</div>
+  </div>
+  <!-- Input -->
+  <input class="filter-input"
+         [(ngModel)]="filterValue"
+         placeholder="Enter value" />
+  <!-- Buttons -->
+  <button class="apply-btn"
+          (click)="applyFilter()"
+          [disabled]="!selectedColumns.length || !filterValue">
+    Apply
+  </button>
+
+  <button class="reset-btn"
+          (click)="resetFilter()">
+    Reset
+  </button>
+
+</div>
+
+<!-- Active filter text -->
+<div *ngIf="selectedColumns.length && filterValue" class="active-filter">
+  Filtering by: {{ selectedColumns.join(', ') }} contains "{{ filterValue }}"
+</div>
+</div>
+<!--ANOMALY SUMMARY CARD-->
+<div class="card anomaly-card" *ngIf="anomalyGroups.length > 0">
+  <h3>📊 Anomalies by {{ anomalyGroups[0]?.group_by || 'Category' }}</h3>
+
+<div class="group-row"
+     *ngFor="let item of anomalyGroups"
+     (click)="filterByCategory(item.group)"
+     [ngClass]="{ 'active-group': activeCategory === item.group }">
+
+    <span class="group-name">{{ item.group }}</span>
+    <span
+  class="group-count"
+  [ngClass]="{
+    'high': item.count >= 2,
+    'medium': item.count == 1,
+    'low': item.count == 0}">
+  {{ item.count }}
+</span>
+</div>
+</div>
+<div class="active-filter" *ngIf="selectedStatus || selectedAnomaly || selectedNormal">
+  
+  <span *ngIf="selectedStatus">
+    🔍 Showing: {{ selectedStatus }} records
+  </span>
+
+  <span *ngIf="selectedAnomaly">
+    🚨 Showing: Anomalies
+  </span>
+
+  <span *ngIf="selectedNormal">
+    ✅ Showing: Normal records
+  </span>
+
+</div>
+  <!-- TABLE -->
+  <div class="card table-card">
+    <div class="table-wrapper" *ngIf="hasUploaded; else noUploadBlock">
+
+      <table class="dataset-table">
+
+        <!--DYNAMIC HEADER-->
+        <thead>
+  <tr>
+    <th *ngFor="let col of columns" (click)="sortByColumn(col)" class="sortable" [class.sorted-col]="sortColumn === col">
+      {{ col }}
+<span class="sort-icon">
+  {{ sortColumn === col 
+      ? (sortOrder === 'asc' ? '▲' : '▼') 
+      : '↕' 
+  }}
+</span>
+    </th>
+            <th>Quality</th>
+            <th>Issues</th>
+            <th>Anomaly</th>
+            <th>Score</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <!-- ✅ DYNAMIC ROWS -->
+        <tbody>
+          
+<tr *ngIf="filteredRecords && filteredRecords.length === 0">
+  <td colspan="100%" style="text-align:center; padding:20px;">
+    No records found for selected category
+  </td>
+</tr>
+
+          <tr *ngFor="let row of (filteredRecords !== null ? filteredRecords : records)"
+              [ngClass]="{
+                'clean-row': row.quality_status === 'CLEAN',
+                'warning-row': row.quality_status === 'WARNING',
+                'error-row': row.quality_status === 'ERROR',
+                'anomaly-row': row.anomaly
+              }">
+            <!--IMPORTANT: dynamic cells-->
+            <td *ngFor="let col of columns" [class.sorted-col]="sortColumn === col">
+              <span *ngIf="!row.editing">{{ row.data[col] }}</span>
+              <input *ngIf="row.editing" [(ngModel)]="row.data[col]" />
+            </td>
+
+            <!-- ✅ KEEP EXISTING FEATURES -->
+            <td>
+              <span
+                class="status"
+                [ngClass]="{
+                  'clean': row.quality_status === 'CLEAN',
+                  'warn': row.quality_status === 'WARNING',
+                  'reject': row.quality_status === 'ERROR'
+                }"
+              >
+                {{ row.quality_status || '-' }}
+              </span>
+            </td>
+
+            <td>
+              <span *ngFor="let issue of row.issues" class="issue-chip">
+                {{ issue }}
+              </span>
+              <span *ngIf="!row.issues?.length">-</span>
+            </td>
+            
+<td>
+  <div *ngIf="row.anomaly">
+    <span class="anomaly-text">ANOMALY</span>
+
+    <div class="anomaly-reason">
+      {{ row.anomaly_reason }}
+    </div>
+  </div>
+
+  <span *ngIf="!row.anomaly">-</span>
+</td>
+
+            <td>{{ row.anomaly_score | number:'1.2-2' }}</td>
+
+            <td>
+              <button *ngIf="!row.editing" class="edit-btn" (click)="editRow(row)">
+                Edit
+              </button>
+
+              <button *ngIf="row.editing" class="edit-btn" (click)="saveRow(row)">
+                Save
+              </button>
+
+              <button *ngIf="!row.editing" class="delete-btn" (click)="deleteRow(row)">
+                Delete
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <ng-template #noUploadBlock>
+      <div class="empty-state">
+        📭 No dataset uploaded. Please upload a file first.
+      </div>
+    </ng-template>
+
+  </div>
+</div>

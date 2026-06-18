@@ -1,0 +1,47 @@
+<div class="login-page">
+<h1 class="main-title">Teardown Intelligence System</h1>
+
+  <!-- Platform explanation -->
+  <p class="platform-subtitle">
+    Teardown analytics platform with
+    <b>data quality</b>, <b>anomaly detection</b>, and
+    <b>interactive dashboard insights</b>
+  </p>
+
+  <!-- Login heading (CENTERED, OUTSIDE box) -->
+  <h2 class="login-heading">🔐 Login</h2>
+
+  <!-- Login box (CENTERED) -->
+  <div class="login-box">
+
+    <input
+      type="email"
+      [(ngModel)]="email"
+      placeholder="Enter your email"
+    />
+
+    <div class="button-center">
+      <button class="primary-btn" (click)="sendOtp()" [disabled]="otpSent">
+        {{ otpSent ? 'OTP Sent ✅' : 'Send OTP' }}
+      </button>
+    </div>
+
+    <div *ngIf="otpSent" class="otp-section">
+      <input
+        type="text"
+        [(ngModel)]="otp"
+        placeholder="Enter OTP"
+      />
+
+      <div class="button-center">
+        <button class="primary-btn" (click)="verifyOtp()">
+          Verify
+        </button>
+      </div>
+    </div>
+
+    <p class="message success-msg">{{ message }}</p>
+
+  </div>
+
+</div>

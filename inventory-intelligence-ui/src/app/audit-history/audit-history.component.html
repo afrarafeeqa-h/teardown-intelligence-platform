@@ -1,0 +1,41 @@
+<div class="main-container">
+<h2>📜 Audit History</h2>
+<div class="audit-container">
+<table class="audit-table">
+
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Total</th>
+      <th>Valid</th>
+      <th>Warning</th>
+      <th>Rejected</th>
+      <th>Uploaded At</th>
+      <th>User</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let audit of audits">
+
+      <td>{{ audit.file_name }}</td>
+      <td>{{ audit.total_records }}</td>
+      <td>{{ audit.valid_records }}</td>
+      <td>{{ audit.warning_records }}</td>
+      <td>{{ audit.rejected_records }}</td>
+      <td>{{ audit.uploaded_at | date:'medium' }}</td>
+      <td>{{ audit.user_email }}</td>
+
+      <td>
+        <button class="view-btn" (click)="viewAudit(audit)">
+          View
+        </button>
+      </td>
+
+    </tr>
+  </tbody>
+
+</table>
+</div>
+</div>

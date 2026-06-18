@@ -1,0 +1,87 @@
+<div class="main-container">
+<div *ngIf="hasUploaded">
+<h2>📊Teardown Dashboard</h2>
+<button class="action-btn" (click)="downloadDashboard()">
+  Download Dashboard
+</button>
+<div id="dashboard-content">
+<!-- KPI CARDS -->
+<div class="section skeleton kpi-skeleton dashboard-container">
+<h3>KPI Summary</h3>
+<div class="kpi-container" *ngIf="summary">
+  <div class="kpi-card total">
+    <div class="kpi-title">Total Records</div>
+    <div class="kpi-value">{{ summary.total_records }}</div>
+  </div>
+
+  <div class="kpi-card clean" (click)="navigateToTable('CLEAN')">
+    <div class="kpi-title">Clean</div>
+    <div class="kpi-value">{{ summary.clean_records }}</div>
+  </div>
+
+  <div class="kpi-card warning" (click)="navigateToTable('WARNING')">
+    <div class="kpi-title">Warnings</div>
+    <div class="kpi-value">{{ summary.warning_records }}</div>
+  </div>
+
+  <div class="kpi-card error" (click)="navigateToTable('ERROR')">
+    <div class="kpi-title">Rejected</div>
+    <div class="kpi-value">{{ summary.rejected_records }}</div>
+  </div>
+</div>
+</div>
+<div class="section">
+<!-- EXISTING BAR CHART -->
+<h3>Data Quality Overview</h3>
+<div class="chart-summary" *ngIf="summary">
+  ✅ Clean: {{ summary.clean_records }}
+  ({{ (summary.clean_records / summary.total_records * 100) | number:'1.1-1' }}%)
+
+  ⚠️ Warning: {{ summary.warning_records }}
+  ({{ (summary.warning_records / summary.total_records * 100) | number:'1.1-1' }}%)
+
+  ❌ Rejected: {{ summary.rejected_records }}
+  ({{ (summary.rejected_records / summary.total_records * 100) | number:'1.1-1' }}%)
+</div>
+<div *ngIf="summary">
+  <div class="chart-container">
+  <canvas baseChart
+    [data]="{
+      labels: ['Clean', 'Warning', 'Rejected'],
+      datasets: [{
+        data: [
+          summary?.clean_records,
+          summary?.warning_records,
+          summary?.rejected_records
+        ],
+        backgroundColor: ['green', 'orange', 'red']
+      }]
+    }"
+    [options]="barChartOptions"
+    chartType="bar">
+  </canvas>
+</div>
+</div>
+<div class="section">
+  <h3>Anomaly Overview</h3>
+  <div class="chart-center">
+    <p *ngIf="noAnomalyData">No anomaly data available</p>
+    <canvas
+      *ngIf="!noAnomalyData"
+      baseChart
+      [data]="anomalyChartData"
+      [options]="anomalyChartOptions"
+      [type]="anomalyChartType">
+    </canvas>
+  </div>
+</div>
+</div>
+</div>
+<!--
+<ng-template #noDashboardData>
+  <div class="empty-state">
+    📭 No dataset available. Please upload a file to view dashboard insights.
+  </div>
+</ng-template>
+-->
+</div>

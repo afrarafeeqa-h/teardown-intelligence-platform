@@ -1,0 +1,123 @@
+.main-container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 2px;
+}
+.audit-container {
+  background: white;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Table */
+.audit-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* Header */
+.audit-table th {
+  background-color: #f8fafc;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 12px;
+  border-bottom: 2px solid #e5e7eb;
+  text-align: left;
+}
+
+/* Cells */
+.audit-table td {
+  padding: 12px;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+/* Hover */
+.audit-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+.audit-table th,
+.audit-table td {
+  text-align: center;   /*make everything consistent*/
+  vertical-align: middle;
+  padding: 12px 20px;
+}
+.badge {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 40px;
+  display: inline-block;
+  text-align: center;
+}
+/* Clean */
+.badge.clean {
+  background-color: #e6f4ea;
+  color: #1b5e20;
+}
+/* Warning */
+.badge.warn {
+  background-color: #fff4e5;
+  color: #e65100;
+}
+/* Rejected */
+.badge.reject {
+  background-color: #fdecea;
+  color: #b71c1c;
+}
+/* Percentage style */
+.badge small {
+  font-weight: 400;
+  margin-left: 4px;
+}
+/* File */
+.audit-table th:nth-child(1),
+.audit-table td:nth-child(1) {
+  width: 200px;
+  text-align: left;
+}
+.audit-table th:nth-child(2),
+.audit-table td:nth-child(2),
+.audit-table th:nth-child(3),
+.audit-table td:nth-child(3),
+.audit-table th:nth-child(4),
+.audit-table td:nth-child(4),
+.audit-table th:nth-child(5),
+.audit-table td:nth-child(5) {
+  width: 60px;
+}
+/* Uploaded At */
+.audit-table th:nth-child(6),
+.audit-table td:nth-child(6) {
+  width: 180px;
+}
+/* User */
+.audit-table th:nth-child(7),
+.audit-table td:nth-child(7) {
+  width: 220px;
+}
+/* Total */
+:host ::ng-deep .audit-table td:nth-child(2) {
+  color: #1e3a8a;
+}
+
+:host ::ng-deep .audit-table td:nth-child(3) {
+  color: #2e7d32;
+}
+
+:host ::ng-deep .audit-table td:nth-child(4) {
+  color: #ed6c02;
+}
+
+:host ::ng-deep .audit-table td:nth-child(5) {
+  color: #d32f2f;
+}
+.audit-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}

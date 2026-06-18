@@ -1,0 +1,18 @@
+<!-- NAVBAR: only after login -->
+<nav *ngIf="isLoggedIn" class="navbar">
+
+  <!-- User tabs -->
+  <button class="nav-btn" routerLink="/upload">Upload</button>
+  <button class="nav-btn" routerLink="/dataset">Dataset</button>
+  <button class="nav-btn" routerLink="/dashboard">Dashboard</button>
+  <button class="nav-btn" routerLink="/ai">AI Assistant</button>
+  <button class="nav-btn" routerLink="/my-uploads">My Uploads</button>
+
+  <!-- Admin-only tab -->
+  <button *ngIf="isAdmin" class="nav-btn" routerLink="/audits">
+    Audit History
+  </button>
+
+  <button class="logout-btn" (click)="logout()">Logout</button>
+</nav> 
+<router-outlet></router-outlet>

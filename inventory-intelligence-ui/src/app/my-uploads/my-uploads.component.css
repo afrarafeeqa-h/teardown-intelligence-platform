@@ -1,0 +1,170 @@
+.main-container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+}
+h2 {
+  margin-bottom: 16px;
+}
+
+.table-container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+}
+
+th {
+  background-color: #f8fafc;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 12px;
+  border-bottom: 2px solid #e5e7eb;
+  text-align: left;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+td:first-child {
+  text-align: left;
+}
+td:nth-child(2) {
+  text-align: left;
+  white-space: nowrap;
+}
+td:last-child {
+  text-align: center;
+}
+tbody tr:hover {
+  background: #eef2f7;
+  background-color: #f9fafb;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Status coloring */
+.clean {
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.warn {
+  background: #fff3e0;
+  color: #ed6c02;
+  font-weight: 600;
+}
+
+.reject {
+  background: #ffebee;
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+/* Button */
+.view-btn {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background-color: #bae6fd;
+}
+
+/* States */
+.loading {
+  color: gray;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.empty-state {
+  text-align: center;
+  color: gray;
+  margin-top: 20px;
+  font-size: 16px;
+}
+th, td {
+  width: auto;
+}
+.status {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 30px;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-weight: 600;
+  text-align: center;
+}
+th:nth-child(1), td:nth-child(1) {
+  width: 25%;
+}
+th:nth-child(2), td:nth-child(2) {
+  width: 25%;
+}
+th:nth-child(3),
+th:nth-child(4),
+th:nth-child(5),
+th:nth-child(6) {
+  width: 10%;
+}
+th:nth-child(7), td:nth-child(7) {
+  width: 20%;
+}
+.action-cell {
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn.dataset {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.btn.dashboard {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+tbody tr {
+  background: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+thead th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  color: #374151;
+}

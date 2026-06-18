@@ -1,0 +1,68 @@
+<div class="main-container">
+  <div class="ai-header">
+  <div class="ai-title">
+    <h2>🤖AI Assistant</h2>
+  </div>
+  <p class="ai-subtitle">
+    Ask questions, analyze your dataset and get instant AI-powered insights
+  </p>
+</div>
+  <!--ACTION BUTTONS-->
+  <div class="action-buttons">
+  <button 
+    [class.active]="active === 'insights'"
+    (click)="active = 'insights'; generateAI()">
+    AI Insights
+  </button>
+  <button 
+    [class.active]="active === 'forecast'"
+    (click)="active = 'forecast'; getForecastAI()">
+    Forecast AI
+  </button>
+  <button 
+    [class.active]="active === 'predictive'"
+    (click)="active = 'predictive'; getPredictive()">
+    Predictive
+  </button>
+  <button 
+    [class.active]="active === 'fix'"
+    (click)="active = 'fix'; getFixSuggestions()">
+    Fix Data
+  </button>
+</div>
+  <!--OUTPUT SECTION-->
+  <div class="ai-results">
+  <div *ngIf="active==='insights' && aiInsights" class="ai-box">
+    <h3>📊 AI Insights</h3>
+    <pre>{{ aiInsights }}</pre>
+  </div>
+  <div *ngIf="active==='forecast' && forecastAI" class="ai-box">
+    <h3>📈 Forecast</h3>
+    <pre>{{ forecastAI }}</pre>
+  </div>
+  <div *ngIf="active==='predictive' && predictiveAI" class="ai-box">
+    <h3>🔮 Predictive</h3>
+    <pre>{{ predictiveAI }}</pre>
+  </div>
+  <div *ngIf="active==='fix' && fixSuggestions" class="ai-box">
+    <h3>🛠 Fix Suggestions</h3>
+    <pre>{{ fixSuggestions }}</pre>
+  </div>
+</div>
+  <!--CHAT SECTION-->
+   <div class="chat-section">
+  <h3>💬 Ask AI</h3>
+    <div class="chat-input">
+      <input [(ngModel)]="userQuery" placeholder="Ask about dataset..." />
+      <button (click)="askAI()">Send</button>
+    </div>
+    <div *ngIf="loadingAI" class="loading-box">
+  <div class="spinner"></div>
+  <p>🤖 Generating AI response...</p>
+</div>
+    <div class="chat-container">
+    <div *ngIf="chatReply" class="ai-response">
+      {{ chatReply }}
+    </div>
+  </div>
+</div>

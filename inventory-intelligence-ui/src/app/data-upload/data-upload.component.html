@@ -1,0 +1,48 @@
+<div class="upload-page">
+
+  <div class="upload-card">
+
+    <h2 class="upload-title">Upload Your Files</h2>
+    <p class="upload-subtitle">
+      Drag and drop your teardown CSV here, or browse
+    </p>
+      <div
+  class="drop-zone"
+  (dragover)="onDragOver($event)"
+  (drop)="onDrop($event)">
+
+  <input
+    type="file"
+    accept=".csv"
+    (change)="onFileSelected($event)"
+    hidden
+    #fileInput
+  />
+
+  <div class="drop-content" (click)="fileInput.click()">
+    <div class="folder-icon">📁</div>
+    <div class="drop-text">
+      Drag & drop files here<br />
+      <span>or <b>browse</b></span>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="selectedFile" class="file-selected">
+  ✅ {{ selectedFile.name }}
+</div>
+
+    <button
+      class="upload-btn"
+      (click)="upload()"
+      [disabled]="!selectedFile"
+    >
+      Upload
+    </button>
+
+    <p class="message">{{ message }}</p>
+
+  </div>
+
+</div>
