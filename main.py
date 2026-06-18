@@ -21,7 +21,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-genai_client = genai.Client(api_key="AIzaSyBbdNs8xHevwIOsEbDK5NKph3AGMrE4QaQ")
+genai_client = genai.Client(api_key="YOUR API KEY")
 
 #DB CONNECTION (keep same DB as your project)
 mongodb_client = MongoClient("mongodb://localhost:27017")
